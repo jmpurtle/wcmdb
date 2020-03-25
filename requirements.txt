@@ -1,0 +1,10 @@
+# Utility Libraries
+cinje==1.1.2
+marrow.package==1.2.0
+marrow.schema==1.2.0
+marrow.mongo==1.1.2
+
+WebCore==2.0.3
+web.db==2.0.1
+web.dispatch.object==2.1.0
+web.dispatch.resource==2.0.0

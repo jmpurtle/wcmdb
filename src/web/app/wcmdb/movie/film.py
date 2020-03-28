@@ -1,8 +1,8 @@
-from .template import render
-from .model import MovieDetail as D
+from .view.template import render
+from .model import FilmDetail as D
 
-class Movie:
-	"""A movie."""
+class Film:
+	"""A film."""
 
 	__dispatch__ = 'resource'
 
@@ -12,7 +12,7 @@ class Movie:
 		self._page = page # The data associated with our current Wcmdb page.
 
 	def get(self):
-		"""Retrieve the movie data or render an HTML page containing the movie."""
+		"""Retrieve the film data or render an HTML page containing the film."""
 
 		candidates = ['text/html'] + list(self._ctx.serialize.types)
 		match = self._ctx.request.accept.best_match(candidates, default_match='text/html')
@@ -23,9 +23,9 @@ class Movie:
 		return self._page # Let the serialization extension handle this for us.
 
 	def post(self, content):
-		"""Update the in-database content for the current movie.
+		"""Update the in-database content for the current film.
 
-		This will create the movie if one by this name doesn't already exist.
+		This will create the film if one by this name doesn't already exist.
 		"""
 		result = self._wcmdb.__collection__.update_one(
 			D.name == self._page.name, # a query identifying the document to update.

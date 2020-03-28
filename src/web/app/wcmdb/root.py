@@ -3,16 +3,16 @@ from datetime import datetime # Python's standard date + time object.
 
 from pymongo.errors import DuplicateKeyError
 
-# Get a reference to our Movie resource class.
-from .movie import Movie
-from .model import MovieDetail as D
+# Get a reference to our Film resource class.
+from .movie.film import Film
+from .movie.model import FilmDetail as D
 
 class Wcmdb:
-	"""Basic movie information database"""
+	"""Basic IMDB clone"""
 
 	__dispatch__ = 'resource' # The WCMDB is a collection of pages, so use resource dispatch.
-	__resource__ = Movie # Declare the type of resource we contain.
-	__collection__ = 'movies'
+	__resource__ = Film # Declare the type of resource we contain.
+	__collection__ = 'films'
 
 	def __init__(self, context, collection=None, record=None):
 		"""Executed when the root of the site (or children) are accessed, on each request."""
@@ -20,7 +20,7 @@ class Wcmdb:
 		self.__collection__ = context.db[self.__collection__] # Get a reference to the collection we use.
 
 	def __getitem__(self, name):
-		"""Load data for the Movie with the given name."""
+		"""Load data for the Film with the given name."""
 
 		data = self.__collection__.find_one(D.name == name)
 
@@ -36,7 +36,7 @@ class Wcmdb:
 		return HTTPFound(location=str(self._ctx.path.current / 'Home')) # Issue the redirect
 
 	def post(self, name, content):
-		"""Save a new movie to the database."""
+		"""Save a new film to the database."""
 
 		try:
 			result = self.__collection__.insert_one(D(name, content))
@@ -45,7 +45,7 @@ class Wcmdb:
 			return {
 				'ok': False,
 				'reason': 'duplicate',
-				'message': "A movie with that name already exists.",
+				'message': "A film with that name already exists.",
 				'name': name,
 			}
 

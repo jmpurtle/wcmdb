@@ -3,7 +3,7 @@ from datetime import datetime
 from marrow.mongo.core import Document
 from marrow.mongo.field import String, Date
 
-class MovieDetail(Document):
+class FilmDetail(Document):
 	name = String('_id') # The primary key is the URL accessible name of the page, often called a "slug".
 	content = String() # The HTML (currently), Markdown (in the future) content of the article.
 	created = Date(default=datetime.utcnow, assign=True)  # The creation time of the document.

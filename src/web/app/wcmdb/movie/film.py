@@ -22,7 +22,7 @@ class Film:
 
 		return self._page # Let the serialization extension handle this for us.
 
-	def post(self, content):
+	def post(self, name, content):
 		"""Update the in-database content for the current film.
 
 		This will create the film if one by this name doesn't already exist.
@@ -35,12 +35,12 @@ class Film:
 			})
 
 		if not result.matched_count: # Nothing was updated... so let's create instead.
-			return self._wcmdb.post(self._page['_id'], content)
+			result = self._wcmdb.__collection__.insert_one(D(name, content))
 
 		return {
 			'ok': True,
 			'acknowledged': result.acknowledged,
-			'name': self._page['_id'],
+			'name': name,
 		}
 
 	def delete(self):
